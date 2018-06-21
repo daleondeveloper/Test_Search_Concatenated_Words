@@ -17,8 +17,10 @@ public class Test {
         List<String>[] concatenatedWords = wordOperationClass.getConcatenatedWordsWithMaxLendth();
         int concatenatedWorldCount = wordOperationClass.getConcatenatedWordCount();
         for(int i = 0; i < 2; i ++) {
-            System.out.println("longest " + i+1 + " :" + concatenatedWords[i] + "\ncountWordsInWord: " + concatenatedWords[i].get(0).length());
+            String []word = concatenatedWords[i].get(0).split(":");
+            System.out.println("longest " + (i+1) + " :" + concatenatedWords[i] + "\ncountWordsInWord: " + word[0].length());
         }
         System.out.println(concatenatedWorldCount);
+
     }
 }
