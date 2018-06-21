@@ -14,8 +14,7 @@ public class Word_Operatoin_Class {
    private boolean isWordUnique;
     //the number of words containing the check word at the moment of the check
    private int concatenatedInCheckedWord;
-    //the maximum number of words contained in the given word to be checked
-    private int maxConcatenatedInCheckedWord;
+    
 
     //counting words containing other words
     private int concatenatedWordCount;
@@ -23,6 +22,7 @@ public class Word_Operatoin_Class {
     private List<String>[] concatenatedWordsWithMaxLendth;
 
     private String wordForCheckCutted;
+    //number of the word that is being checked
     private long numberOfWordWhatChekedInThisMoment;
 
     String words;
@@ -123,7 +123,6 @@ public class Word_Operatoin_Class {
     public void checkWordForConcatenated(String wordForCheck){
         numberOfWordWhatChekedInThisMoment++;
         isWordUnique = true;
-        maxConcatenatedInCheckedWord = 0;
         concatenatedInCheckedWord = 0;
         System.out.print(wordForCheck + " : " + numberOfWordWhatChekedInThisMoment + "\n");
 
@@ -143,31 +142,14 @@ public class Word_Operatoin_Class {
                         concatenatedWordsWithMaxLendth[positionInConcatenateWords].add(wordForCheck);
                         break;
                     }else if(wordForCheck.length() > concatenatedWordsWithMaxLendth[positionInConcatenateWords].get(0).length()){
-                        for(int secondPositionInMassive = concatenatedWordsWithMaxLendth.length-1; secondPositionInMassive > positionInConcatenateWords+1; secondPositionInMassive--){
+                        for(int secondPositionInMassive = concatenatedWordsWithMaxLendth.length-1; secondPositionInMassive > positionInConcatenateWords; secondPositionInMassive--){
                             concatenatedWordsWithMaxLendth[secondPositionInMassive] = concatenatedWordsWithMaxLendth[secondPositionInMassive - 1];
                         }
                         concatenatedWordsWithMaxLendth[positionInConcatenateWords].clear();
                         concatenatedWordsWithMaxLendth[positionInConcatenateWords].add(wordForCheck);
                         break;
                     }
-                
 
-//                //If the number of words is equal to one of the positions, we add to our word list in this position.
-//                if(maxConcatenatedInCheckedWord == countHowManyWordsIsInCheckedWord[positionInConcatenateWords]){
-//                    concatenatedWords[positionInConcatenateWords].add(wordForCheck);
-//                    break;
-//                    //If the number of words contained is greater than the position,
-//                    // we move all below the standing position below and put the word in its position.
-//                } else if(maxConcatenatedInCheckedWord > countHowManyWordsIsInCheckedWord[positionInConcatenateWords]){
-//                    for(int secondPositionInMassive = concatenatedWords.length-1; secondPositionInMassive > positionInConcatenateWords+1; secondPositionInMassive--){
-//                        concatenatedWords[secondPositionInMassive] = concatenatedWords[secondPositionInMassive - 1];
-//                        countHowManyWordsIsInCheckedWord[secondPositionInMassive] = countHowManyWordsIsInCheckedWord[secondPositionInMassive - 1];
-//                    }
-//                    concatenatedWords[positionInConcatenateWords].clear();
-//                    concatenatedWords[positionInConcatenateWords].add(wordForCheck);
-//                    countHowManyWordsIsInCheckedWord[positionInConcatenateWords] = maxConcatenatedInCheckedWord;
-//                    break;
-//                }
             }
         //If the word is unique, we add it to the list of unique words
         }else if(isWordUnique){
@@ -187,7 +169,7 @@ public class Word_Operatoin_Class {
             //The word can not contain a word more than itself,
             // so if a unique word is greater than ours at the moment of the check,
             // we stop this current loop, as all subsequent words will also be larger than our word.
-            if(wordForCheck.length() < uniqueWord.length()){
+            if(wordForCheck.length() < uniqueWord.length() || !isWordUnique){
                 break;
             }
             //Allocate the word from the checking length with a unique word
@@ -213,10 +195,7 @@ public class Word_Operatoin_Class {
                 //mark our word not unique
                 isWordUnique = false;
             }
-            //We check whether this combination of unique words that can contain the word is greatest
-            if(concatenatedInCheckedWord > maxConcatenatedInCheckedWord){
-                maxConcatenatedInCheckedWord = concatenatedInCheckedWord;
-            }
+            
         }
 
         if(concatenatedInCheckedWord > 0)
