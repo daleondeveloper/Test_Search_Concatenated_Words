@@ -20,8 +20,8 @@ public class Word_Operatoin_Class {
     //counting words containing other words
     private int concatenatedWordCount;
 
-    private List<String> [] concatenatedWords;
-    private int [] countHowManyWordsIsInCheckedWord;
+    private List<String>[] concatenatedWordsWithMaxLendth;
+
     private String wordForCheckCutted;
     private long numberOfWordWhatChekedInThisMoment;
 
@@ -32,11 +32,11 @@ public class Word_Operatoin_Class {
         words = new String();
         uniqueWords = new ArrayList<>();
         concatenatedInCheckedWord = 0;
-        concatenatedWords = new List[2];
-        countHowManyWordsIsInCheckedWord = new int[concatenatedWords.length];
-        for (int i = 0; i < concatenatedWords.length;i++){
-            concatenatedWords[i]=new ArrayList<>();
-            countHowManyWordsIsInCheckedWord[i] = 0;
+
+        concatenatedWordsWithMaxLendth = new List[2];
+        for (int i = 0; i < concatenatedWordsWithMaxLendth.length;i++){
+            concatenatedWordsWithMaxLendth[i] = new ArrayList<>();
+            concatenatedWordsWithMaxLendth[i].add("");
         }
         concatenatedWordCount = 0;
         numberOfWordWhatChekedInThisMoment = 0;
@@ -99,7 +99,7 @@ public class Word_Operatoin_Class {
 
     //the methodology first sorts the data from the file
     // in the proper order for itself, then checks each word
-    // for uniqueness or how many unique words it contains
+    // for uniqueness or concatenated of word.
 
     public void checkAllWordsFromList(){
         List<ArrayList<String>> sortedWordsByLendth;
@@ -112,10 +112,14 @@ public class Word_Operatoin_Class {
         }
     }
 
+    public List<String>[] getConcatenatedWordsWithMaxLendth() {
+        return concatenatedWordsWithMaxLendth;
+    }
+
     //The method passes the word given to him to check
     // for the uniqueness or content of the unique words,
     // and from the data it puts the word into a unique or
-    // array of words with the highest content of unique words.
+    // array of words with the highest lendth of word.
     public void checkWordForConcatenated(String wordForCheck){
         numberOfWordWhatChekedInThisMoment++;
         isWordUnique = true;
@@ -128,27 +132,42 @@ public class Word_Operatoin_Class {
 
         //If the word contains other words,
         // then place it in misleading words containing
-        // other words according to the number of words contained therein.
+        // other words according to the they lendth
         if(!isWordUnique){
+
             concatenatedWordCount++;
 
-            for(int positionInConcatenateWords = 0; positionInConcatenateWords < concatenatedWords.length; positionInConcatenateWords++){
-                //If the number of words is equal to one of the positions, we add to our word list in this position.
-                if(maxConcatenatedInCheckedWord == countHowManyWordsIsInCheckedWord[positionInConcatenateWords]){
-                    concatenatedWords[positionInConcatenateWords].add(wordForCheck);
-                    break;
-                    //If the number of words contained is greater than the position,
-                    // we move all below the standing position below and put the word in its position.
-                } else if(maxConcatenatedInCheckedWord > countHowManyWordsIsInCheckedWord[positionInConcatenateWords]){
-                    for(int secondPositionInMassive = concatenatedWords.length-1; secondPositionInMassive > positionInConcatenateWords+1; secondPositionInMassive--){
-                        concatenatedWords[secondPositionInMassive] = concatenatedWords[secondPositionInMassive - 1];
-                        countHowManyWordsIsInCheckedWord[secondPositionInMassive] = countHowManyWordsIsInCheckedWord[secondPositionInMassive - 1];
+            for(int positionInConcatenateWords = 0; positionInConcatenateWords < concatenatedWordsWithMaxLendth.length; positionInConcatenateWords++){
+
+                    if (wordForCheck.length() == concatenatedWordsWithMaxLendth[positionInConcatenateWords].get(0).length()) {
+                        concatenatedWordsWithMaxLendth[positionInConcatenateWords].add(wordForCheck);
+                        break;
+                    }else if(wordForCheck.length() > concatenatedWordsWithMaxLendth[positionInConcatenateWords].get(0).length()){
+                        for(int secondPositionInMassive = concatenatedWordsWithMaxLendth.length-1; secondPositionInMassive > positionInConcatenateWords+1; secondPositionInMassive--){
+                            concatenatedWordsWithMaxLendth[secondPositionInMassive] = concatenatedWordsWithMaxLendth[secondPositionInMassive - 1];
+                        }
+                        concatenatedWordsWithMaxLendth[positionInConcatenateWords].clear();
+                        concatenatedWordsWithMaxLendth[positionInConcatenateWords].add(wordForCheck);
+                        break;
                     }
-                    concatenatedWords[positionInConcatenateWords].clear();
-                    concatenatedWords[positionInConcatenateWords].add(wordForCheck);
-                    countHowManyWordsIsInCheckedWord[positionInConcatenateWords] = maxConcatenatedInCheckedWord;
-                    break;
-                }
+                
+
+//                //If the number of words is equal to one of the positions, we add to our word list in this position.
+//                if(maxConcatenatedInCheckedWord == countHowManyWordsIsInCheckedWord[positionInConcatenateWords]){
+//                    concatenatedWords[positionInConcatenateWords].add(wordForCheck);
+//                    break;
+//                    //If the number of words contained is greater than the position,
+//                    // we move all below the standing position below and put the word in its position.
+//                } else if(maxConcatenatedInCheckedWord > countHowManyWordsIsInCheckedWord[positionInConcatenateWords]){
+//                    for(int secondPositionInMassive = concatenatedWords.length-1; secondPositionInMassive > positionInConcatenateWords+1; secondPositionInMassive--){
+//                        concatenatedWords[secondPositionInMassive] = concatenatedWords[secondPositionInMassive - 1];
+//                        countHowManyWordsIsInCheckedWord[secondPositionInMassive] = countHowManyWordsIsInCheckedWord[secondPositionInMassive - 1];
+//                    }
+//                    concatenatedWords[positionInConcatenateWords].clear();
+//                    concatenatedWords[positionInConcatenateWords].add(wordForCheck);
+//                    countHowManyWordsIsInCheckedWord[positionInConcatenateWords] = maxConcatenatedInCheckedWord;
+//                    break;
+//                }
             }
         //If the word is unique, we add it to the list of unique words
         }else if(isWordUnique){
@@ -206,14 +225,6 @@ public class Word_Operatoin_Class {
 
     public int getConcatenatedWordCount() {
         return concatenatedWordCount;
-    }
-
-    public List<String>[] getConcatenatedWords() {
-        return concatenatedWords;
-    }
-
-    public int[] getCountHowManyWordsIsInCheckedWord() {
-        return countHowManyWordsIsInCheckedWord;
     }
 
     public List<String> getUniqueWords() {
