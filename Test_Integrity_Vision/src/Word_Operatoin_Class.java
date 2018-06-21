@@ -9,12 +9,14 @@ public class Word_Operatoin_Class {
 
    //a list of words that do not contain other words
    private List<String> uniqueWords;
+      //the maximum number of words contained in the given word to be checked	+
+      private int maxConcatenatedInCheckedWord;
 
    //The indicator, or the given word now checking is unique or not
    private boolean isWordUnique;
     //the number of words containing the check word at the moment of the check
    private int concatenatedInCheckedWord;
-
+    List<String> listss = new ArrayList<>();
 
     //counting words containing other words
     private int concatenatedWordCount;
@@ -32,7 +34,7 @@ public class Word_Operatoin_Class {
         words = new String();
         uniqueWords = new ArrayList<>();
         concatenatedInCheckedWord = 0;
-
+        maxConcatenatedInCheckedWord = 0;
         concatenatedWordsWithMaxLendth = new List[2];
         for (int i = 0; i < concatenatedWordsWithMaxLendth.length;i++){
             concatenatedWordsWithMaxLendth[i] = new ArrayList<>();
@@ -123,6 +125,7 @@ public class Word_Operatoin_Class {
     public void checkWordForConcatenated(String wordForCheck){
         numberOfWordWhatChekedInThisMoment++;
         isWordUnique = true;
+        maxConcatenatedInCheckedWord = 0;
         concatenatedInCheckedWord = 0;
         System.out.print(wordForCheck + " : " + numberOfWordWhatChekedInThisMoment + "\n");
 
@@ -135,9 +138,9 @@ public class Word_Operatoin_Class {
         if(!isWordUnique){
 
             concatenatedWordCount++;
+            wordForCheck = wordForCheck + ": Has Words:" + maxConcatenatedInCheckedWord;
 
             for(int positionInConcatenateWords = 0; positionInConcatenateWords < concatenatedWordsWithMaxLendth.length; positionInConcatenateWords++){
-
                     if (wordForCheck.length() == concatenatedWordsWithMaxLendth[positionInConcatenateWords].get(0).length()) {
                         concatenatedWordsWithMaxLendth[positionInConcatenateWords].add(wordForCheck);
                         break;
@@ -163,6 +166,7 @@ public class Word_Operatoin_Class {
     // when the words are found in the drowned word,
     // he takes away part of the word and begins to search from the beginning.
     public void methodForRecurciveCheckWord(String wordForCheck){
+
         wordForCheckCutted = wordForCheck;
 
         if(!wordForCheck.equals(""))
@@ -171,7 +175,7 @@ public class Word_Operatoin_Class {
             //The word can not contain a word more than itself,
             // so if a unique word is greater than ours at the moment of the check,
             // we stop this current loop, as all subsequent words will also be larger than our word.
-            if(wordForCheck.length() < uniqueWord.length() || !isWordUnique){
+            if(wordForCheck.length() < uniqueWord.length()){
                 break;
             }
             //Allocate the word from the checking length with a unique word
@@ -191,11 +195,15 @@ public class Word_Operatoin_Class {
             }
         }
         //If words in our word are over characters, then they have put one of the combinations of unique words
-        if(wordForCheckCutted.equals("") ){
+        if(wordForCheck.equals("") ){
             //checks for similar words, since two identical words contain each other
             if(concatenatedInCheckedWord > 1){
                 //mark our word not unique
                 isWordUnique = false;
+            }
+            //We check whether this combination of unique words that can contain the word is greatest	+
+            if(concatenatedInCheckedWord > maxConcatenatedInCheckedWord){
+                maxConcatenatedInCheckedWord = concatenatedInCheckedWord;
             }
 
         }
