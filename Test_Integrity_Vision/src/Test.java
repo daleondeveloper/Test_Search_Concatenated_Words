@@ -14,11 +14,10 @@ public class Test {
         wordOperationClass.checkAllWordsFromList();
 
         //Obtaining word data that contains other words
-        List<String>[] concatenatedWords = wordOperationClass.getConcatenatedWords();
-        int[] countWordsInConcatenatedWords = wordOperationClass.getCountHowManyWordsIsInCheckedWord();
+        List<String>[] concatenatedWords = wordOperationClass.getConcatenatedWordsWithMaxLendth();
         int concatenatedWorldCount = wordOperationClass.getConcatenatedWordCount();
         for(int i = 0; i < 2; i ++) {
-            System.out.println("longest " + i+1 + " :" + concatenatedWords[i] + "\ncountWordsInWord: " + countWordsInConcatenatedWords[i]);
+            System.out.println("longest " + i+1 + " :" + concatenatedWords[i] + "\ncountWordsInWord: " + concatenatedWords[i].get(0).length());
         }
         System.out.println(concatenatedWorldCount);
     }
