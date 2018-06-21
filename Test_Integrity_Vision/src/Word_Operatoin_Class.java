@@ -14,7 +14,7 @@ public class Word_Operatoin_Class {
    private boolean isWordUnique;
     //the number of words containing the check word at the moment of the check
    private int concatenatedInCheckedWord;
-    
+
 
     //counting words containing other words
     private int concatenatedWordCount;
@@ -143,7 +143,9 @@ public class Word_Operatoin_Class {
                         break;
                     }else if(wordForCheck.length() > concatenatedWordsWithMaxLendth[positionInConcatenateWords].get(0).length()){
                         for(int secondPositionInMassive = concatenatedWordsWithMaxLendth.length-1; secondPositionInMassive > positionInConcatenateWords; secondPositionInMassive--){
-                            concatenatedWordsWithMaxLendth[secondPositionInMassive] = concatenatedWordsWithMaxLendth[secondPositionInMassive - 1];
+                           concatenatedWordsWithMaxLendth[secondPositionInMassive].clear();
+                           for(String word : concatenatedWordsWithMaxLendth[secondPositionInMassive - 1])
+                            concatenatedWordsWithMaxLendth[secondPositionInMassive].add(word);
                         }
                         concatenatedWordsWithMaxLendth[positionInConcatenateWords].clear();
                         concatenatedWordsWithMaxLendth[positionInConcatenateWords].add(wordForCheck);
@@ -195,7 +197,7 @@ public class Word_Operatoin_Class {
                 //mark our word not unique
                 isWordUnique = false;
             }
-            
+
         }
 
         if(concatenatedInCheckedWord > 0)
